@@ -23,6 +23,8 @@ def end_read():
     GPIO.cleanup()
 
 def readyToread():
+    global continue_reading
+    continue_reading = True
     # Create an object of the class MFRC522
     MIFAREReader = MFRC522.MFRC522()
     # This loop keeps checking for chips. If one is near it will get the UID and authenticate
@@ -44,8 +46,8 @@ def readyToread():
         if status == MIFAREReader.MI_OK:
 
             # Print UID
-            #print "Card read UID: " + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3])
-            uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
+            print "Card read UID: " + str(uid[0]) + "," + str(uid[1]) + "," + str(uid[2]) + "," + str(uid[3])
+            suid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
             # This is the default key for authentication
             key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
 
@@ -60,12 +62,13 @@ def readyToread():
             if status == MIFAREReader.MI_OK:
                 MIFAREReader.MFRC522_Read(8)
                 MIFAREReader.MFRC522_StopCrypto1()
-                result = "{status:'ok',result:'"+uid+"'}"
-                end_read()
+                result = "{status:'ok',result:'"+suid+"'}"
+                #end_read()
             else:
                 #print "Authentication error"
                 result = "{status:'not authenticated'}"
-                end_read()
+                #end_read()
+               
     return result
 
 # App config.
