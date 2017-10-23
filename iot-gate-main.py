@@ -48,8 +48,8 @@ def hello_world():
 
 @app.route('/readtag',methods=['GET'])
 def readTag():
-    sleep(20)
-    return '{result:"verygood"}'
+    sleep(1)
+    return '{"status":"ok","result":"verygood"}'
     
 
 if __name__ == '__main__':

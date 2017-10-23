@@ -16,8 +16,17 @@
 
 
                 $.get("/readtag", function(data, status){
-                        $("#token_id_show").text(data);
-                        $("#submit_btn").show();
+                        console.log(data);
+                        var a = data ;
+                        obj = JSON.parse(a);
+                        if(obj.status == "ok"){
+                            $("#token_id_show").text(obj.result);
+                            $("#submit_btn").show();
+                        }else{
+                            //something wrong
+                            //give another chance
+                        }
+
                 });
 
             $(this).attr("value","something");
