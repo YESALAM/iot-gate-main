@@ -62,11 +62,11 @@ def readyToread():
             if status == MIFAREReader.MI_OK:
                 MIFAREReader.MFRC522_Read(8)
                 MIFAREReader.MFRC522_StopCrypto1()
-                result = "{status:'ok',result:'"+suid+"'}"
+                result = '{"status":"ok","result":"'+suid+'"}'
                 #end_read()
             else:
                 #print "Authentication error"
-                result = "{status:'not authenticated'}"
+                result = '{"status":"not authenticated"}'
                 #end_read()
                
     return result
