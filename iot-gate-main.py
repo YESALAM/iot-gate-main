@@ -50,7 +50,7 @@ def hello_world():
 def readTag():
     sleep(20)
     return '{result:"verygood"}'
-    return readyToread()
+    
 
 if __name__ == '__main__':
     app.run()
