@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <title>MANIT Vehicle Movement Monitoring</title>
+       <link rel="stylesheet" media="screen" href ="static/bootstrap.min.css">
+       <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+       <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+        <script type=text/javascript src="static/jquery.min.js"></script>
+        <script type="text/javascript" >
+
+
+        $(document).ready(function(){
+            $("#submit_btn").hide();
+            $("#token_id_button").click(function(){
+
+
+                $.get("/readtag", function(data, status){
+                        $("#token_id_show").text(data);
+                        $("#submit_btn").show();
+                });
+
+            $(this).attr("value","something");
+            $(this).attr("type","hidden");
+
+
+        });
+    });
+    </script>
+    </head>
+    <body>
+
+
+<div class="container">
+
+
+  <h2>New Token Generation</h2>
+  <form  action="" method="post" role="form">
+    {{ form.csrf }}
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="What's his name ?">
+      <br>
+      <label for="vrn">Vehicle Registration no:</label>
+      <input type="text" class="form-control" id="vrn" name="vrn" placeholder="What is vehicle's registration no ?">
+      <br>
+      <label for="nop">No of people:</label>
+      <input type="number" class="form-control" id="nop" name="nop" placeholder="How many people is with him ?">
+      <br>
+      <label for="purpose">Purpose of visit:</label>
+      <input type="text" class="form-control" id="purpose" name="purpose" placeholder="Purpose of visit ?">
+        <br>
+      <label for="access">Access needed for Area:</label>
+        <select name="access" class="form-control">
+        <option value="1">SBI Bank</option>
+        <option value="2">New Teaching Block</option>
+            <option value="3">Faculty Guest House</option>
+        <option value="4">CSE Dept</option>
+             <option value="5">Administration Building</option>
+        <option value="6">Main Building</option>
+             <option value="7">Boys Hostel</option>
+        <option value="8">Girls Hostel</option>
+             <option value="9">Residential Quarters</option>
+        <option value="10">Director Residence</option>
+    </select>
+         <br>
+      <label for="Token_id">UUID:</label>
+        <p id="token_id_show" class=".form-control-static"></p>
+        <input type="button" class="btn btn-warning" id="token_id_button" name="token_id_button"  value="Click to Read UUID">
+
+
+
+    </div>
+    <button type="submit" id="submit_btn" class="btn btn-success ">Create Token</button>
+
+  </form>
+
+  <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+
+        {% for message in messages %}
+            {% if "Error" not in message[1]: %}
+                <div class="alert alert-info">
+                <strong>Success! </strong> {{ message[1] }}
+                </div>
+            {% endif %}
+
+            {% if "Error" in message[1]: %}
+                <div class="alert alert-warning">
+                {{ message[1] }}
+                </div>
+            {% endif %}
+        {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+</div>
+<br>
+</div>
+</div>
+</body>
+</html>
