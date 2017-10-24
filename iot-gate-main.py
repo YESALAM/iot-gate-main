@@ -29,7 +29,6 @@ class ReusableForm(Form):
 def hello_world():
     form = ReusableForm(request.form)
 
-    print form.errors
     if request.method == 'POST':
         name = request.form['name']
         vrn = request.form['vrn']
@@ -40,6 +39,8 @@ def hello_world():
 
         #validation of POST data
         valid = 1
+        inop = 0
+        iaccess = 0
         try:
             inop = int(nop)
         except ValueError:
