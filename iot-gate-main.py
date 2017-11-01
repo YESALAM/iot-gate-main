@@ -28,7 +28,7 @@ def readyToread():
     # Create an object of the class MFRC522
     MIFAREReader = MFRC522.MFRC522()
     # This loop keeps checking for chips. If one is near it will get the UID and authenticate
-    result = "";
+    result = ""
     while continue_reading:
 
         # Scan for cards
