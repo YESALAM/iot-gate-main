@@ -128,7 +128,7 @@ def hello_world():
             if iaccess < 0 or iaccess > 11:
                 flash('Please select a correct option to required area')
                 valid = 0
-            if len(uuid) != 8:
+            if len(uuid) != 10:
                 flash('Huh wrong uuid! Please try again')
                 valid = 0
 
