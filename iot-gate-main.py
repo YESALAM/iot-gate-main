@@ -62,11 +62,11 @@ def readyToread():
             if status == MIFAREReader.MI_OK:
                 MIFAREReader.MFRC522_Read(8)
                 MIFAREReader.MFRC522_StopCrypto1()
-                result = "{status:'ok',result:'"+suid+"'}"
+                result = '{"status":"ok","result":"'+suid+'"}'
                 #end_read()
             else:
                 #print "Authentication error"
-                result = "{status:'not authenticated'}"
+                result = '{"status":"not authenticated"}'
                 #end_read()
                
     return result
@@ -90,20 +90,57 @@ class ReusableForm(Form):
 def hello_world():
     form = ReusableForm(request.form)
 
-    print
-    form.errors
     if request.method == 'POST':
         name = request.form['name']
-        password = request.form['vrn']
-        email = request.form['nop']
-        print
-        name, " ", email, " ", password
+        vrn = request.form['vrn']
+        nop = request.form['nop']
+        purpose = request.form['purpose']
+        access = request.form['access']
+        uuid = request.form['token_id_button']
 
-        if form.validate():
-            # Save the comment here.
-            flash('Thanks for registration ' + name)
+        #validation of POST data
+        valid = 1
+        inop = 0
+        iaccess = 0
+        try:
+            inop = int(nop)
+        except ValueError:
+            flash('Please corrent the No of People field')
+            valid = 0
+
+        try:
+            iaccess = int(access)
+        except ValueError:
+            flash('Please select a correct option to required area')
+            valid = 0
+
+
+        if valid == 1:
+            if name == '':
+                flash('Please fill the "Name" field')
+                valid = 0
+            if vrn == '' or len(vrn) < 5:
+                flash('Please fill correct Vehicle Registration No.')
+                valid = 0
+            if inop < 0:
+                flash('Please corrent the No of People field')
+                valid = 0
+            if iaccess < 0 or iaccess > 11:
+                flash('Please select a correct option to required area')
+                valid = 0
+            if len(uuid) != 8:
+                flash('Huh wrong uuid! Please try again')
+                valid = 0
+
+        #print name, " ", email, " ", password
+
+        if valid == 1:
+            # Send the data to server here.
+            # yay success
+            flash('' + name + ' is Registered . Provide him the TAG Card')
         else:
-            flash('Error: All the form fields are required. ')
+            # Huh something wrong
+            flash('Error: Correct error and try again. ')
 
     return render_template('hello.html', form=form)
 

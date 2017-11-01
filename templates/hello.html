@@ -16,8 +16,18 @@
 
 
                 $.get("/readtag", function(data, status){
-                        $("#token_id_show").text(data);
-                        $("#submit_btn").show();
+                        console.log(data);
+                        var a = data ;
+                        obj = JSON.parse(a);
+                        if(obj.status == "ok"){
+                            $("#token_id_show").text(obj.result);
+                            $("#token_id_button").val(obj.result);
+                            $("#submit_btn").show();
+                        }else{
+                            //something wrong
+                            //give another chance
+                        }
+
                 });
 
             $(this).attr("value","something");
@@ -39,16 +49,16 @@
     {{ form.csrf }}
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" name="name" placeholder="What's his name ?">
+      <input type="text" class="form-control" id="name" name="name" placeholder="What's his name ?" required>
       <br>
       <label for="vrn">Vehicle Registration no:</label>
-      <input type="text" class="form-control" id="vrn" name="vrn" placeholder="What is vehicle's registration no ?">
+      <input type="text" class="form-control" id="vrn" name="vrn" placeholder="What is vehicle's registration no ?" required>
       <br>
       <label for="nop">No of people:</label>
-      <input type="number" class="form-control" id="nop" name="nop" placeholder="How many people is with him ?">
+      <input type="number" class="form-control" id="nop" name="nop" placeholder="How many people is with him ?" value="1">
       <br>
       <label for="purpose">Purpose of visit:</label>
-      <input type="text" class="form-control" id="purpose" name="purpose" placeholder="Purpose of visit ?">
+      <input type="text" class="form-control" id="purpose" name="purpose" placeholder="Purpose of visit ?" >
         <br>
       <label for="access">Access needed for Area:</label>
         <select name="access" class="form-control">
@@ -80,13 +90,19 @@
             {% if messages %}
 
         {% for message in messages %}
-            {% if "Error" not in message[1]: %}
+            {% if "Thanks" in message[1]: %}
                 <div class="alert alert-info">
                 <strong>Success! </strong> {{ message[1] }}
                 </div>
             {% endif %}
 
             {% if "Error" in message[1]: %}
+                <div class="alert alert-danger">
+                {{ message[1] }}
+                </div>
+            {% endif %}
+
+            {% if "Please" in message[1]: %}
                 <div class="alert alert-warning">
                 {{ message[1] }}
                 </div>
