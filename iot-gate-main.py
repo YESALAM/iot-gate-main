@@ -13,6 +13,9 @@ import RPi.GPIO as GPIO
 import MFRC522
 import signal
 
+import requests
+import json
+
 continue_reading = True
 
 # Capture SIGINT for cleanup when the script is aborted
@@ -70,6 +73,20 @@ def readyToread():
                 #end_read()
                
     return result
+
+def submitData(payload):
+    base_url = ""
+    final_url = base_url+"/register"
+
+    response = requests.post(final_url,data=payload)
+
+    json_response = response.text
+
+    js = json.loads(json_response)
+    result = js['result']
+    return result
+
+
 
 # App config.
 DEBUG = True
@@ -137,7 +154,15 @@ def hello_world():
         if valid == 1:
             # Send the data to server here.
             # yay success
-            flash('' + name + ' is Registered . Provide him the TAG Card')
+            payload = {'name':name,'vrn':vrn,'nop':nop,'purpose':purpose,'access':access,'token_id_button':uuid}
+            result = submitData(payload)
+            if result == 'ok':
+                flash('' + name + ' is Registered . Provide him the TAG Card')
+            elif result== 'already':
+                flash('Error: Card is already Registered ! Use another')
+            else:
+                flash('Error: Server Error')
+
         else:
             # Huh something wrong
             flash('Error: Correct error and try again. ')
