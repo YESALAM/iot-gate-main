@@ -75,7 +75,7 @@ def readyToread():
     return result
 
 def submitData(payload):
-    base_url = ""
+    base_url = "http://ec2-52-90-129-59.compute-1.amazonaws.com:5000"
     final_url = base_url+"/register"
 
     response = requests.post(final_url,data=payload)
