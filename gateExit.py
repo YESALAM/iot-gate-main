@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import MFRC522
 import signal
-
+import time
 import requests
 import json
 
