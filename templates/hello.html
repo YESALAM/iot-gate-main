@@ -4,44 +4,47 @@
         <title>MANIT Vehicle Movement Monitoring</title>
        <link rel="stylesheet" media="screen" href ="static/bootstrap.min.css">
        <link rel="stylesheet" href="static/bootstrap-theme.min.css">
+
        <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
         <script type=text/javascript src="static/jquery.min.js"></script>
-        <script type="text/javascript" >
+        <script type="text/javascript" src="static/jquery.blockUI.js"></script>
 
 
         $(document).ready(function(){
             $("#submit_btn").hide();
             $("#token_id_button").click(function(){
 
-
+                $.blockUI({message:"<h1>RFID Reader is Ready to read new card</h1>"});
                 $.get("/readtag", function(data, status){
                         console.log(data);
                         var a = data ;
                         obj = JSON.parse(a);
                         if(obj.status == "ok"){
+                            $.unblockUI();
                             $("#token_id_show").text(obj.result);
                             $("#token_id_button").val(obj.result);
                             $("#submit_btn").show();
                         }else{
                             //something wrong
                             //give another chance
-				$.get("/readtag", function(data, status){
-                        console.log(data);
-                        var a = data ;
-                        obj = JSON.parse(a);
-                        if(obj.status == "ok"){
-                            $("#token_id_show").text(obj.result);
-                            $("#token_id_button").val(obj.result);
-                            $("#submit_btn").show();
-                        }else{
-                            //something wrong
-                            //give another chance
-				 $("#token_id_button").show();
-				 $("#token_id_show").text("Unable to read !/r/n Please try again");
-                        }
+                            $.get("/readtag", function(data, status){
+                                    console.log(data);
+                                    var a = data ;
+                                    obj = JSON.parse(a);
+                                    if(obj.status == "ok"){
+                                        $.unblockUI();
+                                        $("#token_id_show").text(obj.result);
+                                        $("#token_id_button").val(obj.result);
+                                        $("#submit_btn").show();
+                                    }else{
+                                        //something wrong
+                                        //give another chance
+                                         $("#token_id_button").show();
+                                         $("#token_id_show").text("Unable to read !/r/n Please try again");
+                                    }
 
-                });
+                            });
                         }
 
                 });
