@@ -81,7 +81,7 @@ def submitData(payload):
     response = requests.post(final_url,data=payload)
 
     json_response = response.text
-
+    print json_response
     js = json.loads(json_response)
     result = js['result']
     return result
