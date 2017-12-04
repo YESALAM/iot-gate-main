@@ -26,6 +26,22 @@
                         }else{
                             //something wrong
                             //give another chance
+				$.get("/readtag", function(data, status){
+                        console.log(data);
+                        var a = data ;
+                        obj = JSON.parse(a);
+                        if(obj.status == "ok"){
+                            $("#token_id_show").text(obj.result);
+                            $("#token_id_button").val(obj.result);
+                            $("#submit_btn").show();
+                        }else{
+                            //something wrong
+                            //give another chance
+				 $("#token_id_button").show();
+				 $("#token_id_show").text("Unable to read !/r/n Please try again");
+                        }
+
+                });
                         }
 
                 });
